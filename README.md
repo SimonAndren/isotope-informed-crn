@@ -258,7 +258,7 @@ If you use this tool in your research, please cite:
 @software{rpfr_gui,
   author = {Andren, Simon},
   title = {RPFR-GUI: Isotope Fractionation Analysis Tool},
-  year = {2024},
+  year = {2026},
   url = {https://github.com/simonandren/isotope-informed-crn}
 }
 ```
