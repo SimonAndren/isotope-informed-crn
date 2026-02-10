@@ -1,0 +1,88 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+*.cover
+.hypothesis/
+coverage.xml
+coverage.json
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+notebooks/.ipynb_checkpoints/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# Project-specific: Large data files
+*.h5
+*.hdf5
+data/raw/*.h5
+data/raw/*.hdf5
+
+# Project-specific: Generated indices
+*.parquet
+*.arrow
+data/processed/*.parquet
+data/processed/*.arrow
+data/processed/*.csv
+
+# Project-specific: Outputs
+notebooks/figures/
+data/processed/analysis/
+
+# Project-specific: Internal development artifacts
+reviews/
+legacy/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+.cache/
