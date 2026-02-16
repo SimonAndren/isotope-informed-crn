@@ -80,6 +80,7 @@ data/processed/analysis/
 # Project-specific: Internal development artifacts
 reviews/
 legacy/
+NOTES.md
 
 # Temporary files
 *.tmp
