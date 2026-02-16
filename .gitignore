@@ -80,7 +80,10 @@ data/processed/analysis/
 # Project-specific: Internal development artifacts
 reviews/
 legacy/
+docs/
 NOTES.md
+CHANGELOG.md
+CONTRIBUTING.md
 
 # Coding agent artifacts
 CLAUDE.md
