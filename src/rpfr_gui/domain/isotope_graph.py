@@ -25,15 +25,12 @@ class IsotopeGraph:
         The underlying NetworkX graph.
     anchor_node : str or None
         The reference site for relative calculations.
-    mass_law_enabled : bool
-        Whether mass-dependent scaling is applied.
     """
 
     def __init__(
         self,
         *,
         connectivity: str = "full",
-        mass_law_enabled: bool = False,
     ):
         """Initialize an empty isotope exchange network.
 
@@ -42,13 +39,9 @@ class IsotopeGraph:
         connectivity : str, optional
             Graph connectivity type: "full" (all atoms connected) or
             "custom" (user-defined edges). Default is "full".
-        mass_law_enabled : bool, optional
-            Enable mass-dependent scaling for isotope conversions.
-            Default is False.
         """
         self.graph = nx.Graph()
         self.connectivity = connectivity
-        self.mass_law_enabled = mass_law_enabled
         self.anchor_node: str | None = None
         self.anchor_element: str | None = None  # element of the current anchor
 
@@ -338,35 +331,6 @@ class IsotopeGraph:
         """
         return [set(comp) for comp in nx.connected_components(self.graph)]
 
-    def apply_mass_law_scaling(
-        self,
-        *,
-        source_isotope: str = "17O",
-        target_isotope: str = "18O",
-        scaling_factor: float | None = None,
-    ):
-        """Apply mass-law scaling to convert RPFR values between isotopes.
-
-        Parameters
-        ----------
-        source_isotope : str, optional
-            Source isotope label. Default is "17O".
-        target_isotope : str, optional
-            Target isotope label. Default is "18O".
-        scaling_factor : float, optional
-            Custom scaling factor. If None, uses theoretical mass law.
-        """
-        if not self.mass_law_enabled:
-            raise RuntimeError("Mass law is disabled. Enable it during initialization.")
-
-        # Placeholder for mass law logic
-        # In a real implementation, this would:
-        # 1. Calculate mass-dependent fractionation factors
-        # 2. Update node RPFR values accordingly
-        # 3. Store metadata about the transformation
-
-        raise NotImplementedError("Mass law scaling not yet implemented")
-
     def summary(self) -> dict:
         """Generate a summary of the isotope graph.
 
@@ -386,7 +350,6 @@ class IsotopeGraph:
             "num_connected_components": len(components),
             "connectivity_mode": self.connectivity,
             "anchor_set": self.anchor_node is not None,
-            "mass_law_enabled": self.mass_law_enabled,
         }
 
     def __repr__(self) -> str:

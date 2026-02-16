@@ -11,10 +11,9 @@ class TestIsotopeGraph:
 
     def test_initialization(self):
         """Test graph initialization."""
-        graph = IsotopeGraph(connectivity="full", mass_law_enabled=False)
+        graph = IsotopeGraph(connectivity="full")
 
         assert graph.connectivity == "full"
-        assert graph.mass_law_enabled is False
         assert graph.anchor_node is None
         assert graph.graph.number_of_nodes() == 0
 
@@ -162,7 +161,6 @@ class TestIsotopeGraph:
         assert summary["num_molecules"] == 1
         assert summary["connectivity_mode"] == "full"
         assert summary["anchor_set"] is False
-        assert summary["mass_law_enabled"] is False
 
     def test_repr(self, sample_rpfr_data):
         """Test string representation."""
@@ -173,21 +171,6 @@ class TestIsotopeGraph:
         assert "IsotopeGraph" in repr_str
         assert "nodes=5" in repr_str
         assert "elements=['C', 'H']" in repr_str
-
-    def test_mass_law_disabled_raises_error(self):
-        """Test that mass law methods fail when disabled."""
-        graph = IsotopeGraph(mass_law_enabled=False)
-
-        with pytest.raises(RuntimeError, match="Mass law is disabled"):
-            graph.apply_mass_law_scaling()
-
-    def test_mass_law_not_implemented(self):
-        """Test that mass law scaling raises NotImplementedError."""
-        graph = IsotopeGraph(mass_law_enabled=True)
-
-        with pytest.raises(NotImplementedError):
-            graph.apply_mass_law_scaling()
-
 
 class TestAnchorElement:
     """Tests for the anchor_element attribute introduced with element constraints."""

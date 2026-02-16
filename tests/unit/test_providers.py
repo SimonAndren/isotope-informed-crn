@@ -4,7 +4,7 @@ import warnings
 
 import pytest
 
-from rpfr_gui.data import GNNProvider, H5Provider
+from rpfr_gui.data import H5Provider
 
 
 class TestH5Provider:
@@ -128,31 +128,6 @@ class TestH5Provider:
         provider = H5Provider(temp_h5_file_numpy_smiles)
         assert provider.has_molecule("000001") is True
         assert provider.has_molecule("999999") is False
-
-
-class TestGNNProvider:
-    """Test suite for GNNProvider class."""
-
-    def test_initialization(self):
-        """Test GNN provider initialization."""
-        provider = GNNProvider()
-        assert provider.model_path is None
-
-    def test_methods_raise_not_implemented(self):
-        """Test that GNN provider methods raise NotImplementedError."""
-        provider = GNNProvider()
-
-        with pytest.raises(NotImplementedError):
-            provider.get_rpfr("mol_001")
-
-        with pytest.raises(NotImplementedError):
-            provider.get_structure("mol_001")
-
-        with pytest.raises(NotImplementedError):
-            provider.has_molecule("mol_001")
-
-        with pytest.raises(NotImplementedError):
-            provider.predict("CC")
 
 
 class TestH5ProviderEdgeCases:

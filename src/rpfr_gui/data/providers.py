@@ -3,7 +3,6 @@
 This module implements the Strategy pattern for data access:
 - AbstractProvider: Interface defining the contract
 - H5Provider: Concrete implementation for HDF5 files
-- GNNProvider: Placeholder for future GNN-based predictions
 """
 
 from __future__ import annotations
@@ -345,54 +344,3 @@ class H5Provider(AbstractProvider):
                     all_rows.append(row)
 
         return pd.DataFrame(all_rows)
-
-
-class GNNProvider(AbstractProvider):
-    """Placeholder provider for GNN-based RPFR predictions.
-
-    This provider is a stub for future implementation of real-time
-    RPFR predictions using Graph Neural Networks.
-    """
-
-    def __init__(self, model_path: Path | str | None = None):
-        """Initialize the GNN provider.
-
-        Parameters
-        ----------
-        model_path : Path or str, optional
-            Path to the trained GNN model.
-        """
-        self.model_path = Path(model_path) if model_path else None
-        # Future: Load the model here
-
-    def get_rpfr(self, molecule_id: str, temperature: float = 300.0) -> pd.DataFrame | None:
-        """Retrieve RPFR data using GNN prediction."""
-        raise NotImplementedError(
-            "GNN-based RPFR prediction is not yet implemented. "
-            "Please use H5Provider for static dataset access."
-        )
-
-    def get_structure(self, molecule_id: str) -> str | None:
-        """Retrieve molecular structure."""
-        raise NotImplementedError("GNNProvider does not store molecular structures.")
-
-    def has_molecule(self, molecule_id: str) -> bool:
-        """Check if molecule can be predicted."""
-        raise NotImplementedError("GNNProvider molecule checking not implemented.")
-
-    def predict(self, smiles: str, temperature: float = 300.0) -> pd.DataFrame | None:
-        """Predict RPFR values for a given SMILES string.
-
-        Parameters
-        ----------
-        smiles : str
-            SMILES string of the molecule.
-        temperature : float, optional
-            Temperature in Kelvin.
-
-        Returns
-        -------
-        pd.DataFrame or None
-            Predicted per-atom RPFR values.
-        """
-        raise NotImplementedError("GNN prediction not yet available.")
