@@ -11,10 +11,9 @@ class TestIsotopeGraph:
 
     def test_initialization(self):
         """Test graph initialization."""
-        graph = IsotopeGraph(connectivity="full", mass_law_enabled=False)
+        graph = IsotopeGraph(connectivity="full")
 
         assert graph.connectivity == "full"
-        assert graph.mass_law_enabled is False
         assert graph.anchor_node is None
         assert graph.graph.number_of_nodes() == 0
 
@@ -162,7 +161,6 @@ class TestIsotopeGraph:
         assert summary["num_molecules"] == 1
         assert summary["connectivity_mode"] == "full"
         assert summary["anchor_set"] is False
-        assert summary["mass_law_enabled"] is False
 
     def test_repr(self, sample_rpfr_data):
         """Test string representation."""
@@ -173,21 +171,6 @@ class TestIsotopeGraph:
         assert "IsotopeGraph" in repr_str
         assert "nodes=5" in repr_str
         assert "elements=['C', 'H']" in repr_str
-
-    def test_mass_law_disabled_raises_error(self):
-        """Test that mass law methods fail when disabled."""
-        graph = IsotopeGraph(mass_law_enabled=False)
-
-        with pytest.raises(RuntimeError, match="Mass law is disabled"):
-            graph.apply_mass_law_scaling()
-
-    def test_mass_law_not_implemented(self):
-        """Test that mass law scaling raises NotImplementedError."""
-        graph = IsotopeGraph(mass_law_enabled=True)
-
-        with pytest.raises(NotImplementedError):
-            graph.apply_mass_law_scaling()
-
 
 class TestAnchorElement:
     """Tests for the anchor_element attribute introduced with element constraints."""
@@ -433,3 +416,112 @@ class TestGetRPFRDataframeRelativeElementConstraint:
         graph.add_molecule("mol_001", sample_rpfr_data)
         df = graph.get_rpfr_dataframe(relative=True)
         assert df["relative_rpfr"].isna().all()
+
+
+class TestIsotopeGraphEdgeCases:
+    """Additional edge-case tests for IsotopeGraph."""
+
+    def test_add_molecule_duplicate_id_overwrites_node(self, sample_rpfr_data):
+        """Adding a molecule with the same ID overwrites existing nodes silently."""
+        graph = IsotopeGraph()
+        graph.add_molecule("mol_001", sample_rpfr_data)
+        original_rpfr = graph.graph.nodes["mol_001_0"]["rpfr"]
+
+        # Modify the data and re-add with same ID
+        modified = sample_rpfr_data.copy()
+        modified.loc[0, "RPFR_300K"] = 999.0
+        graph.add_molecule("mol_001", modified)
+
+        # Node attributes should be overwritten
+        assert graph.graph.nodes["mol_001_0"]["rpfr"] == 999.0
+        assert graph.graph.nodes["mol_001_0"]["rpfr"] != original_rpfr
+
+    def test_connectivity_not_applied_to_later_molecules(self, sample_rpfr_data):
+        """Molecules added after set_connectivity are not auto-connected."""
+        graph = IsotopeGraph()
+        graph.add_molecule("mol_001", sample_rpfr_data)
+        graph.set_connectivity(mode="full")
+        edges_before = graph.graph.number_of_edges()
+
+        # Add a second molecule with H atoms
+        extra = pd.DataFrame(
+            [
+                {"Atom_Index": 0, "Atom_Symbol": "H", "RPFR_300K": 10.0},
+                {"Atom_Index": 1, "Atom_Symbol": "H", "RPFR_300K": 10.0},
+            ]
+        )
+        graph.add_molecule("mol_002", extra)
+
+        # Edges should NOT have increased — connectivity was set before mol_002
+        assert graph.graph.number_of_edges() == edges_before
+
+    def test_get_relative_rpfr_nonexistent_node_raises(self, sample_rpfr_data):
+        """Querying a non-existent node raises KeyError."""
+        graph = IsotopeGraph()
+        graph.add_molecule("mol_001", sample_rpfr_data)
+        graph.set_anchor("mol_001_0")
+        with pytest.raises(KeyError):
+            graph.get_relative_rpfr("nonexistent_node")
+
+    def test_get_rpfr_dataframe_absolute_no_nan(self, sample_rpfr_data):
+        """Absolute (non-relative) DataFrame has no NaN values."""
+        graph = IsotopeGraph()
+        graph.add_molecule("mol_001", sample_rpfr_data)
+        df = graph.get_rpfr_dataframe(relative=False)
+        assert df["rpfr"].notna().all()
+
+    def test_empty_graph_summary(self):
+        """Summary works on an empty graph without crashing."""
+        graph = IsotopeGraph()
+        summary = graph.summary()
+        assert summary["num_nodes"] == 0
+        assert summary["num_edges"] == 0
+        assert summary["num_molecules"] == 0
+        assert summary["elements"] == []
+
+    def test_empty_graph_get_rpfr_dataframe(self):
+        """get_rpfr_dataframe returns empty DataFrame for empty graph."""
+        graph = IsotopeGraph()
+        df = graph.get_rpfr_dataframe(relative=False)
+        assert len(df) == 0
+
+    def test_empty_graph_get_element_normalized_rpfr(self):
+        """get_element_normalized_rpfr returns empty DataFrame for empty graph."""
+        graph = IsotopeGraph()
+        df = graph.get_element_normalized_rpfr(method="mean")
+        assert len(df) == 0
+
+    def test_get_subgraph_nonexistent_element_returns_empty(self, sample_rpfr_data):
+        """Requesting a non-existent element returns an empty subgraph."""
+        graph = IsotopeGraph()
+        graph.add_molecule("mol_001", sample_rpfr_data)
+        sub = graph.get_subgraph_by_element("Xe")
+        assert sub.number_of_nodes() == 0
+
+    def test_get_connected_components_empty_graph(self):
+        """Connected components of empty graph returns empty list."""
+        graph = IsotopeGraph()
+        assert graph.get_connected_components() == []
+
+    def test_add_molecule_missing_rpfr_column_raises(self):
+        """Adding data without the expected RPFR column raises KeyError."""
+        graph = IsotopeGraph()
+        bad_data = pd.DataFrame([{"Atom_Index": 0, "Atom_Symbol": "C", "wrong_col": 1.0}])
+        with pytest.raises(KeyError):
+            graph.add_molecule("mol_001", bad_data)
+
+    def test_add_molecule_missing_symbol_column_raises(self):
+        """Adding data without the expected symbol column raises KeyError."""
+        graph = IsotopeGraph()
+        bad_data = pd.DataFrame([{"Atom_Index": 0, "wrong_col": "C", "RPFR_300K": 1.0}])
+        with pytest.raises(KeyError):
+            graph.add_molecule("mol_001", bad_data)
+
+    def test_custom_edges_cross_molecule(self, sample_rpfr_data):
+        """Custom edges can connect nodes from different molecules."""
+        graph = IsotopeGraph()
+        nodes_a = graph.add_molecule("mol_A", sample_rpfr_data)
+        extra = pd.DataFrame([{"Atom_Index": 0, "Atom_Symbol": "H", "RPFR_300K": 10.0}])
+        nodes_b = graph.add_molecule("mol_B", extra)
+        graph.set_connectivity(mode="custom", custom_edges=[(nodes_a[1], nodes_b[0])])
+        assert graph.graph.has_edge(nodes_a[1], nodes_b[0])
