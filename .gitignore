@@ -82,6 +82,10 @@ reviews/
 legacy/
 NOTES.md
 
+# Coding agent artifacts
+CLAUDE.md
+.claude/
+
 # Temporary files
 *.tmp
 *.bak
