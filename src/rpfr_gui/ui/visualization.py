@@ -23,7 +23,6 @@ import py3Dmol
 
 # RDKit
 from rdkit import Chem
-from rdkit.Chem import AllChem
 
 # ── colour helpers ────────────────────────────────────────────────────────────
 
@@ -41,20 +40,6 @@ ELEMENT_COLORMAPS: dict[str, str] = {
     "I": "hot",
 }
 _DEFAULT_CMAP = "viridis"
-
-# CPK-ish element colours used for atom labels / fallback spheres
-CPK_COLORS: dict[str, str] = {
-    "H": "#FFFFFF",
-    "C": "#404040",
-    "N": "#3050F8",
-    "O": "#FF0D0D",
-    "S": "#FFFF30",
-    "P": "#FF8000",
-    "F": "#90E050",
-    "Cl": "#1FF01F",
-    "Br": "#A62929",
-    "I": "#940094",
-}
 
 
 def _val_to_hex(value: float, vmin: float, vmax: float, cmap_name: str) -> str:
@@ -98,12 +83,12 @@ def build_rdkit_mol(
 
     # Add explicit Hs so the atom ordering matches the HDF5 file
     mol = Chem.AddHs(mol)
-
-    # Embed a conformer using distance geometry (placeholder positions)
-    AllChem.EmbedMolecule(mol, AllChem.ETKDGv3())
-
-    conf = mol.GetConformer()
     n_rdkit = mol.GetNumAtoms()
+
+    # Create a conformer directly and populate it with DFT coordinates
+    # (avoids wasteful distance-geometry embedding that can fail for unusual molecules)
+    conf = Chem.Conformer(n_rdkit)
+    mol.AddConformer(conf, assignId=True)
 
     if len(atom_symbols) != n_rdkit:
         raise ValueError(
@@ -112,7 +97,8 @@ def build_rdkit_mol(
             "Check that the SMILES represents the same molecule."
         )
 
-    # Replace generated coordinates with the DFT-optimised ones
+    # Set the DFT-optimised coordinates
+    conf = mol.GetConformer()
     for i, (x, y, z) in enumerate(coords):
         conf.SetAtomPosition(i, (float(x), float(y), float(z)))
 
@@ -235,10 +221,6 @@ class RPFRVisualizer:
                         "alignment": "center",
                     },
                 )
-
-    def _add_bonds(self, view: py3Dmol.view):
-        """Draw bond sticks between bonded atoms."""
-        view.setStyle({"model": 0}, {"stick": {"radius": 0.08, "color": "grey"}})
 
     # ── public display modes ──────────────────────────────────────────────────
 
@@ -383,8 +365,10 @@ class RPFRVisualizer:
         self._add_rpfr_spheres(view, colors, values, radius_scale=0.28, show_labels=show_labels)
 
         scale_label = "log₁₀(RPFR)" if log_scale else "RPFR"
+        range_min = 10**vmin if log_scale else vmin
+        range_max = 10**vmax if log_scale else vmax
         view.addLabel(
-            f"{scale_label}  [{10**vmin:.3f} – {10**vmax:.3f}]  T={self.temperature:.0f}K",
+            f"{scale_label}  [{range_min:.3f} – {range_max:.3f}]  T={self.temperature:.0f}K",
             {
                 "fontSize": 12,
                 "fontColor": "black",
@@ -437,30 +421,30 @@ class RPFRVisualizer:
 
         cm = plt.get_cmap(cmap)
 
-        # Build a py3Dmol surface coloured by property
-        # py3Dmol's addSurface accepts a 'colorscheme' dict with atom-mapped colours
-        prop_map = {}
+        # Build per-atom colour map from RPFR values
+        color_map: dict[int, str] = {}
         for i, (_, row) in enumerate(self._df.iterrows()):
             if element_filter and row["symbol"] != element_filter:
                 continue
             r, g, b, _ = cm(float(norm_vals[i]))
-            prop_map[int(row["idx"])] = mcolors.to_hex((r, g, b))
+            color_map[int(row["idx"])] = mcolors.to_hex((r, g, b))
 
         # Fallback colour for atoms not in the map
         fallback = "#aaaaaa"
 
-        # Build atom colour list in index order for py3Dmol's colorscheme
-        color_list = [prop_map.get(i, fallback) for i in range(self.n_atoms)]
+        # Build atom colour list in index order
+        color_list = [color_map.get(i, fallback) for i in range(self.n_atoms)]
 
-        # py3Dmol surface with per-atom colour
+        # Build per-atom color map for py3Dmol surface
+        atom_colors = {str(i): {"color": color_list[i]} for i in range(self.n_atoms)}
         view.addSurface(
             py3Dmol.SAS,
             {
                 "opacity": opacity,
-                "colorscheme": {"prop": "index", "gradient": "roygb"},
+                "colorfunc": atom_colors,
             },
         )
-        # Override with atom-specific colours via sphere overlay
+        # Add sphere overlay for atom-specific RPFR colours
         for i, hex_c in enumerate(color_list):
             if element_filter and self.symbols[i] != element_filter:
                 continue

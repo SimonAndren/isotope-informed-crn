@@ -1,5 +1,6 @@
 """Unit tests for ChemistryResolver."""
 
+import pandas as pd
 import pytest
 
 from rpfr_gui.data import ChemistryResolver
@@ -155,3 +156,69 @@ class TestChemistryResolver:
             assert len(df) == 0
         except pd.errors.EmptyDataError:
             pass  # Empty file is also valid — 0 molecules written
+
+
+class TestChemistryResolverEdgeCases:
+    """Additional edge-case tests for ChemistryResolver."""
+
+    def test_resolve_invalid_id_type_raises_value_error(self, temp_index_file):
+        """Unsupported id_type raises ValueError."""
+        resolver = ChemistryResolver(temp_index_file)
+        with pytest.raises(ValueError, match="Unsupported id_type"):
+            resolver.resolve("C", id_type="inchi_key")
+
+    def test_resolve_inchi_end_to_end(self, temp_index_file):
+        """Resolving via InChI finds the correct molecule in the index."""
+        resolver = ChemistryResolver(temp_index_file)
+        mol_id = resolver.resolve("InChI=1S/CH4/h1H4", id_type="inchi")
+        assert mol_id == "000001"
+
+    def test_canonicalize_inchi_invalid_returns_none(self):
+        """Invalid InChI string returns None."""
+        resolver = ChemistryResolver.__new__(ChemistryResolver)
+        assert resolver.canonicalize_inchi("not_an_inchi") is None
+
+    def test_batch_resolve_empty_list(self, temp_index_file):
+        """Empty identifier list returns empty dict."""
+        resolver = ChemistryResolver(temp_index_file)
+        assert resolver.batch_resolve([], id_type="smiles") == {}
+
+    def test_build_index_with_limit(self, temp_h5_file, tmp_path):
+        """build_index respects the limit parameter."""
+        output_path = tmp_path / "limited.csv"
+        ChemistryResolver.build_index(temp_h5_file, output_path, limit=2)
+        df = pd.read_csv(output_path)
+        assert len(df) == 2
+
+    def test_resolve_duplicate_smiles_returns_first(self, tmp_path):
+        """When the index has duplicate SMILES, resolve returns the first match."""
+        index_path = tmp_path / "dup_index.csv"
+        pd.DataFrame(
+            [
+                {"Molecule_ID": "AAA", "Canonical_SMILES": "C"},
+                {"Molecule_ID": "BBB", "Canonical_SMILES": "C"},
+            ]
+        ).to_csv(index_path, index=False)
+
+        resolver = ChemistryResolver(index_path)
+        assert resolver.resolve("C", id_type="smiles") == "AAA"
+
+    def test_auto_generate_false_missing_file_no_error(self, tmp_path):
+        """auto_generate=False with missing file does not raise."""
+        missing = tmp_path / "missing.csv"
+        resolver = ChemistryResolver(missing, auto_generate=False)
+        assert resolver.lookup_table is None
+
+    def test_load_index_unsupported_format_raises(self, tmp_path):
+        """Unsupported index file extension raises ValueError."""
+        bad_path = tmp_path / "index.json"
+        bad_path.write_text("{}")
+        with pytest.raises(ValueError, match="Unsupported index format"):
+            ChemistryResolver(bad_path)
+
+    def test_resolve_without_loaded_index_raises(self, tmp_path):
+        """Resolving when lookup_table is None raises RuntimeError."""
+        missing = tmp_path / "missing.csv"
+        resolver = ChemistryResolver(missing, auto_generate=False)
+        with pytest.raises(RuntimeError, match="Index not loaded"):
+            resolver.resolve("C", id_type="smiles")

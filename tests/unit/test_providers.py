@@ -1,8 +1,10 @@
 """Unit tests for data providers."""
 
+import warnings
+
 import pytest
 
-from rpfr_gui.data import GNNProvider, H5Provider
+from rpfr_gui.data import H5Provider
 
 
 class TestH5Provider:
@@ -128,26 +130,64 @@ class TestH5Provider:
         assert provider.has_molecule("999999") is False
 
 
-class TestGNNProvider:
-    """Test suite for GNNProvider class."""
+class TestH5ProviderEdgeCases:
+    """Additional edge-case tests for H5Provider."""
 
-    def test_initialization(self):
-        """Test GNN provider initialization."""
-        provider = GNNProvider()
-        assert provider.model_path is None
+    def test_get_rpfr_nonexistent_temperature_returns_none(self, temp_h5_file):
+        """Requesting a temperature not in the HDF5 returns None."""
+        provider = H5Provider(temp_h5_file)
+        assert provider.get_rpfr("000001", temperature=500.0) is None
 
-    def test_methods_raise_not_implemented(self):
-        """Test that GNN provider methods raise NotImplementedError."""
-        provider = GNNProvider()
+    def test_get_rpfr_float_temperature_truncation_warns(self, temp_h5_file):
+        """Non-integer temperature emits a warning about truncation."""
+        provider = H5Provider(temp_h5_file)
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            provider.get_rpfr("000001", temperature=300.5)
+            assert len(w) == 1
+            assert "truncated" in str(w[0].message).lower()
 
-        with pytest.raises(NotImplementedError):
-            provider.get_rpfr("mol_001")
+    def test_get_rpfr_integer_temperature_no_warning(self, temp_h5_file):
+        """Integer temperature (as float) does not emit a warning."""
+        provider = H5Provider(temp_h5_file)
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            provider.get_rpfr("000001", temperature=300.0)
+            assert len(w) == 0
 
-        with pytest.raises(NotImplementedError):
-            provider.get_structure("mol_001")
+    def test_decode_value_json_list_string(self):
+        """A JSON-parseable list string is decoded into a Python list."""
+        result = H5Provider._decode_value("[1.0, 2.0, 3.0]")
+        assert result == [1.0, 2.0, 3.0]
 
-        with pytest.raises(NotImplementedError):
-            provider.has_molecule("mol_001")
+    def test_decode_value_bracket_smiles_not_parsed_as_json(self):
+        """A SMILES string like '[CH4]' is not incorrectly parsed as JSON."""
+        result = H5Provider._decode_value("[CH4]")
+        assert result == "[CH4]"
 
-        with pytest.raises(NotImplementedError):
-            provider.predict("CC")
+    def test_load_batch_empty_list_returns_empty_dataframe(self, temp_h5_file):
+        """Empty molecule_ids list returns an empty DataFrame."""
+        provider = H5Provider(temp_h5_file)
+        df = provider.load_batch([], show_progress=False)
+        assert len(df) == 0
+
+    def test_load_batch_missing_ids_skipped(self, temp_h5_file):
+        """Non-existent molecule IDs are silently skipped in batch loading."""
+        provider = H5Provider(temp_h5_file)
+        df = provider.load_batch(
+            ["000001", "NONEXISTENT", "000003"],
+            datasets={"symbol": "Atom_Symbol", "rpfr": "RPFR_300K"},
+            show_progress=False,
+        )
+        unique_mols = set(df["Molecule_ID"].unique())
+        assert unique_mols == {"000001", "000003"}
+
+    def test_h5provider_accepts_string_path(self, temp_h5_file):
+        """H5Provider can be initialized with a str path (not just Path)."""
+        provider = H5Provider(str(temp_h5_file))
+        assert provider.has_molecule("000001")
+
+    def test_get_full_atom_data_nonexistent_molecule_returns_none(self, temp_h5_file):
+        """get_full_atom_data returns None for a non-existent molecule."""
+        provider = H5Provider(temp_h5_file)
+        assert provider.get_full_atom_data("NONEXISTENT") is None

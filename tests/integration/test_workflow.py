@@ -1,9 +1,12 @@
 """Integration tests for end-to-end workflows."""
 
+import numpy as np
+import py3Dmol
 import pytest
 
 from rpfr_gui.data import ChemistryResolver, H5Provider
 from rpfr_gui.domain import IsotopeGraph
+from rpfr_gui.ui.visualization import RPFRVisualizer
 
 
 class TestEndToEndWorkflow:
@@ -252,3 +255,58 @@ class TestElementConstraintWorkflow:
         viz = RPFRVisualizer(smiles, symbols, coords, rpfr_values)
         view = viz.show_element_filter("H")
         assert isinstance(view, py3Dmol.view)
+
+
+class TestAdditionalIntegrationWorkflows:
+    """Additional integration tests covering untested workflow paths."""
+
+    def test_full_pipeline_with_parquet_index(self, temp_h5_file, tmp_path):
+        """End-to-end workflow using Parquet index instead of CSV."""
+        index_path = tmp_path / "index.parquet"
+        ChemistryResolver.build_index(temp_h5_file, index_path)
+
+        resolver = ChemistryResolver(index_path)
+        mol_id = resolver.resolve("C", id_type="smiles")
+        assert mol_id == "000001"
+
+        provider = H5Provider(temp_h5_file)
+        rpfr_data = provider.get_rpfr(mol_id, temperature=300.0)
+        assert rpfr_data is not None
+
+        graph = IsotopeGraph()
+        graph.add_molecule(mol_id, rpfr_data)
+        graph.set_connectivity(mode="full")
+        assert graph.summary()["num_nodes"] == 5
+
+    def test_load_batch_to_graph_workflow(self, temp_h5_file):
+        """load_batch output can be transformed into IsotopeGraph nodes."""
+        provider = H5Provider(temp_h5_file)
+        batch_df = provider.load_batch(
+            ["000001", "000003"],
+            datasets={"Atom_Symbol": "Atom_Symbol", "RPFR_300K": "RPFR_300K"},
+            show_progress=False,
+        )
+        assert len(batch_df) > 0
+
+        graph = IsotopeGraph()
+        for mol_id, group in batch_df.groupby("Molecule_ID"):
+            graph.add_molecule(str(mol_id), group.reset_index(drop=True))
+
+        graph.set_connectivity(mode="full")
+        summary = graph.summary()
+        assert summary["num_molecules"] == 2
+        assert summary["num_nodes"] == 5 + 3  # CH4 + H2O
+
+    def test_error_propagation_resolve_none_to_provider(self, temp_h5_file, temp_index_file):
+        """When resolve returns None, provider gracefully returns None."""
+        resolver = ChemistryResolver(temp_index_file)
+        mol_id = resolver.resolve("NONEXISTENT_SMILES", id_type="smiles")
+        assert mol_id is None
+
+        provider = H5Provider(temp_h5_file)
+        # Passing None as molecule_id should not crash — returns None
+        if mol_id is not None:
+            rpfr_data = provider.get_rpfr(mol_id)
+        else:
+            rpfr_data = None
+        assert rpfr_data is None

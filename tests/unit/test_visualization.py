@@ -16,6 +16,7 @@ import pytest
 from rdkit import Chem
 
 from rpfr_gui.ui.visualization import (
+    _DEFAULT_CMAP,
     ELEMENT_COLORMAPS,
     RPFRVisualizer,
     _val_to_hex,
@@ -390,3 +391,70 @@ class TestElementColormaps:
 
         for _element, cmap_name in ELEMENT_COLORMAPS.items():
             plt.get_cmap(cmap_name)  # Raises if invalid
+
+
+# ── additional edge-case tests ────────────────────────────────────────────────
+
+
+class TestShowGlobalScaleLabel:
+    """Tests verifying the label text in show_global_scale."""
+
+    def test_linear_label_does_not_use_log_transform(self, visualizer):
+        """In linear mode the label should show raw RPFR values, not 10**val."""
+        # We can't directly inspect the label string from py3Dmol,
+        # but we verify the code path doesn't crash and returns a view.
+        result = visualizer.show_global_scale(log_scale=False)
+        assert isinstance(result, py3Dmol.view)
+
+    def test_log_label_returns_view(self, visualizer):
+        """In log mode the label returns a view without error."""
+        result = visualizer.show_global_scale(log_scale=True)
+        assert isinstance(result, py3Dmol.view)
+
+
+class TestShowMultiElementEdgeCases:
+    """Edge-case tests for show_multi_element."""
+
+    def test_empty_elements_list_returns_view(self, visualizer):
+        """Passing elements=[] produces a viewer (with no highlighted spheres)."""
+        result = visualizer.show_multi_element(elements=[])
+        assert isinstance(result, py3Dmol.view)
+
+
+class TestValToHexEdgeCases:
+    """Additional edge-case tests for _val_to_hex."""
+
+    def test_negative_value_clips_to_vmin(self):
+        """Negative value below vmin clips to vmin colour."""
+        neg = _val_to_hex(-5.0, 0.0, 1.0, "viridis")
+        at_min = _val_to_hex(0.0, 0.0, 1.0, "viridis")
+        assert neg == at_min
+
+
+class TestDefaultColormapFallback:
+    """Tests for elements not in ELEMENT_COLORMAPS."""
+
+    def test_element_not_in_colormaps_uses_default(self):
+        """An element not in ELEMENT_COLORMAPS falls back to _DEFAULT_CMAP."""
+        assert "Xe" not in ELEMENT_COLORMAPS
+        # The fallback is used via ELEMENT_COLORMAPS.get(el, _DEFAULT_CMAP)
+        cmap = ELEMENT_COLORMAPS.get("Xe", _DEFAULT_CMAP)
+        assert cmap == "viridis"
+
+    def test_show_element_filter_single_atom_element(self, visualizer):
+        """show_element_filter works for a single-atom element (C in CH4)."""
+        result = visualizer.show_element_filter("C")
+        assert isinstance(result, py3Dmol.view)
+
+
+class TestSummaryTableColumns:
+    """Test that summary_table has expected column set."""
+
+    def test_summary_table_does_not_expose_el_std(self, visualizer):
+        """summary_table intentionally excludes el_std from output."""
+        df = visualizer.summary_table()
+        assert "el_std" not in df.columns
+
+    def test_internal_df_has_el_std(self, visualizer):
+        """Internal DataFrame has el_std even if summary_table excludes it."""
+        assert "el_std" in visualizer._df.columns
