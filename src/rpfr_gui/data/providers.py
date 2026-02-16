@@ -9,6 +9,7 @@ This module implements the Strategy pattern for data access:
 from __future__ import annotations
 
 import json
+import warnings
 from abc import ABC, abstractmethod
 from collections.abc import Iterable
 from pathlib import Path
@@ -152,7 +153,14 @@ class H5Provider(AbstractProvider):
         pd.DataFrame or None
             Per-atom RPFR data with columns: Atom_Index, Atom_Symbol, RPFR_<temp>K
         """
-        rpfr_key = f"RPFR_{int(temperature)}K"
+        temp_int = int(temperature)
+        if temperature != temp_int:
+            warnings.warn(
+                f"Temperature {temperature} truncated to {temp_int} for HDF5 key lookup. "
+                f"Pass an integer temperature to suppress this warning.",
+                stacklevel=2,
+            )
+        rpfr_key = f"RPFR_{temp_int}K"
 
         with h5py.File(self.h5_path, "r") as h5:
             if molecule_id not in h5:

@@ -43,15 +43,20 @@ class ChemistryResolver:
             Path to the index file (Parquet or CSV). If it doesn't exist and
             auto_generate is True, it will be created from the HDF5 file.
         auto_generate : bool, optional
-            If True and the index doesn't exist, generate it automatically.
-            Default is True.
+            If True (default) and the index file doesn't exist, raise
+            FileNotFoundError. If False, silently allow a missing index
+            (useful when the caller plans to call build_index() later).
         """
         self.index_path = Path(index_path)
         self.lookup_table: pd.DataFrame | None = None
 
         if self.index_path.exists():
             self._load_index()
-        elif auto_generate:
+        elif not auto_generate:
+            # Silently allow missing index when auto_generate is False;
+            # the caller is expected to call build_index() later.
+            pass
+        else:
             raise FileNotFoundError(
                 f"Index file not found at {self.index_path}. "
                 "Please generate it using build_index() or provide a valid path."

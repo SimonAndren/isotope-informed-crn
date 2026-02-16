@@ -236,6 +236,19 @@ class IsotopeGraph:
                     "rpfr": attrs["rpfr"],
                 }
             )
+        if not rows:
+            return pd.DataFrame(
+                columns=[
+                    "node_id",
+                    "molecule_id",
+                    "atom_index",
+                    "atom_symbol",
+                    "rpfr",
+                    "normalized_rpfr",
+                    "element_mean",
+                    "element_std",
+                ]
+            )
         df = pd.DataFrame(rows)
 
         # Compute per-element statistics
