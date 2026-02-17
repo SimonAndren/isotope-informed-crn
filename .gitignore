@@ -20,6 +20,7 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+CLAUDE.md
 
 # Virtual environments
 venv/
@@ -81,6 +82,9 @@ data/processed/analysis/
 reviews/
 legacy/
 NOTES.md
+
+# Development logs
+devlog/
 
 # Temporary files
 *.tmp

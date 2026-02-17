@@ -71,7 +71,20 @@ This will:
 
 ---
 
-### 4. Verify Installation
+### 4. Set Up Notebook Kernel
+
+To run the Jupyter notebooks in the `.venv`, register it as a kernel:
+
+```bash
+uv pip install ipykernel
+.venv/bin/python -m ipykernel install --user --name=isotope-crn
+```
+
+In VS Code, open a notebook and select the **isotope-crn** kernel from the kernel picker (top-right), or choose the `.venv` Python interpreter under "Python Environments".
+
+---
+
+### 5. Verify Installation
 
 ```bash
 # Run the test suite
