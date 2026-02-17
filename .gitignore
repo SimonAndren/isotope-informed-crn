@@ -20,6 +20,8 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+CLAUDE.md
+docs/*
 
 # Virtual environments
 venv/
@@ -80,14 +82,10 @@ data/processed/analysis/
 # Project-specific: Internal development artifacts
 reviews/
 legacy/
-docs/
 NOTES.md
-CHANGELOG.md
-CONTRIBUTING.md
 
-# Coding agent artifacts
-CLAUDE.md
-.claude/
+# Development logs
+devlog/
 
 # Temporary files
 *.tmp
