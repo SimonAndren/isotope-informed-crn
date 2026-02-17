@@ -4,8 +4,8 @@ Tests cover:
 - _val_to_hex: scalar-to-hex-colour mapping
 - build_rdkit_mol: RDKit molecule construction with DFT coordinates
 - mol_to_xyz_block: XYZ serialisation
-- RPFRVisualizer: initialisation, statistics, all four display modes,
-  surface mode, and summary_table
+- RPFRVisualizer: initialisation, statistics, element_filter and
+  multi_element display modes, and summary_table
 """
 
 from __future__ import annotations
@@ -316,64 +316,6 @@ class TestShowMultiElement:
         assert isinstance(result, py3Dmol.view)
 
 
-class TestShowGlobalScale:
-    """Tests for Mode 3 — global (log or linear) scale."""
-
-    def test_log_scale_returns_view(self, visualizer):
-        """show_global_scale with log_scale=True returns py3Dmol.view."""
-        result = visualizer.show_global_scale(log_scale=True)
-        assert isinstance(result, py3Dmol.view)
-
-    def test_linear_scale_returns_view(self, visualizer):
-        """show_global_scale with log_scale=False returns py3Dmol.view."""
-        result = visualizer.show_global_scale(log_scale=False)
-        assert isinstance(result, py3Dmol.view)
-
-    def test_custom_colormap(self, visualizer):
-        """Accepts a custom colormap name without raising."""
-        result = visualizer.show_global_scale(cmap="inferno")
-        assert isinstance(result, py3Dmol.view)
-
-    def test_no_labels(self, visualizer):
-        """show_labels=False does not raise."""
-        result = visualizer.show_global_scale(show_labels=False)
-        assert isinstance(result, py3Dmol.view)
-
-
-class TestShowSurface:
-    """Tests for the molecular surface display mode."""
-
-    def test_default_returns_view(self, visualizer):
-        """show_surface with defaults (mode='minmax') returns py3Dmol.view."""
-        result = visualizer.show_surface()
-        assert isinstance(result, py3Dmol.view)
-
-    def test_minmax_mode_returns_view(self, visualizer):
-        """show_surface with mode='minmax' returns py3Dmol.view."""
-        result = visualizer.show_surface(mode="minmax")
-        assert isinstance(result, py3Dmol.view)
-
-    def test_global_mode_returns_view(self, visualizer):
-        """show_surface with mode='global' returns py3Dmol.view."""
-        result = visualizer.show_surface(mode="global")
-        assert isinstance(result, py3Dmol.view)
-
-    def test_invalid_mode_raises(self, visualizer):
-        """show_surface with unknown mode raises ValueError."""
-        with pytest.raises(ValueError, match="Unknown mode"):
-            visualizer.show_surface(mode="unknown_mode")
-
-    def test_element_filter(self, visualizer):
-        """show_surface with element_filter does not raise."""
-        result = visualizer.show_surface(mode="minmax", element_filter="H")
-        assert isinstance(result, py3Dmol.view)
-
-    def test_custom_opacity(self, visualizer):
-        """Accepts a custom opacity value without raising."""
-        result = visualizer.show_surface(mode="minmax", opacity=0.5)
-        assert isinstance(result, py3Dmol.view)
-
-
 # ── element_colormaps constant ────────────────────────────────────────────────
 
 
@@ -394,22 +336,6 @@ class TestElementColormaps:
 
 
 # ── additional edge-case tests ────────────────────────────────────────────────
-
-
-class TestShowGlobalScaleLabel:
-    """Tests verifying the label text in show_global_scale."""
-
-    def test_linear_label_does_not_use_log_transform(self, visualizer):
-        """In linear mode the label should show raw RPFR values, not 10**val."""
-        # We can't directly inspect the label string from py3Dmol,
-        # but we verify the code path doesn't crash and returns a view.
-        result = visualizer.show_global_scale(log_scale=False)
-        assert isinstance(result, py3Dmol.view)
-
-    def test_log_label_returns_view(self, visualizer):
-        """In log mode the label returns a view without error."""
-        result = visualizer.show_global_scale(log_scale=True)
-        assert isinstance(result, py3Dmol.view)
 
 
 class TestShowMultiElementEdgeCases:

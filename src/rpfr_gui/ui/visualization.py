@@ -327,59 +327,6 @@ class RPFRVisualizer:
         view.zoomTo()
         return view
 
-    def show_global_scale(
-        self,
-        log_scale: bool = True,
-        cmap: str = "viridis",
-        width: int = 700,
-        height: int = 500,
-        show_labels: bool = True,
-    ) -> py3Dmol.view:
-        """Mode 3 — All elements on one shared (optionally log) colour scale.
-
-        Useful for a raw overview of the data. Because H RPFR (~10-15) is
-        ~10x larger than C/N/O (~1.1-1.2), a log scale is strongly recommended
-        to see variation within the heavy atoms.
-
-        Parameters
-        ----------
-        log_scale : bool
-            Apply log10 transform before colouring. Default True.
-        cmap : str
-            Matplotlib colormap. Default "viridis".
-        """
-        view = self._base_viewer(width, height)
-        view.setStyle({}, {"stick": {"radius": 0.06, "color": "lightgrey"}})
-
-        rpfr_vals = self._df["rpfr"].values
-        display_vals = np.log10(rpfr_vals) if log_scale else rpfr_vals
-        vmin, vmax = display_vals.min(), display_vals.max()
-
-        colors: dict[int, str] = {}
-        values: dict[int, float] = {}
-        for _, row in self._df.iterrows():
-            val = np.log10(row["rpfr"]) if log_scale else row["rpfr"]
-            colors[int(row["idx"])] = _val_to_hex(val, vmin, vmax, cmap)
-            values[int(row["idx"])] = row["rpfr"]
-
-        self._add_rpfr_spheres(view, colors, values, radius_scale=0.28, show_labels=show_labels)
-
-        scale_label = "log₁₀(RPFR)" if log_scale else "RPFR"
-        range_min = 10**vmin if log_scale else vmin
-        range_max = 10**vmax if log_scale else vmax
-        view.addLabel(
-            f"{scale_label}  [{range_min:.3f} – {range_max:.3f}]  T={self.temperature:.0f}K",
-            {
-                "fontSize": 12,
-                "fontColor": "black",
-                "backgroundColor": "white",
-                "backgroundOpacity": 0.7,
-                "screenOffset": {"x": 0, "y": -220},
-            },
-        )
-        view.zoomTo()
-        return view
-
     def summary_table(self) -> pd.DataFrame:
         """Return a tidy summary table of all atoms with their RPFR and normalised values."""
         return self._df[["idx", "symbol", "rpfr", "el_mean", "el_min", "el_max", "minmax"]].copy()
