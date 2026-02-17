@@ -21,7 +21,7 @@ wheels/
 *.egg
 MANIFEST
 CLAUDE.md
-docs/
+docs/*
 
 # Virtual environments
 venv/
