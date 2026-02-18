@@ -1,0 +1,3 @@
+[submodule "vendor/RMG-Py"]
+	path = vendor/RMG-Py
+	url = https://github.com/ReactionMechanismGenerator/RMG-Py.git
