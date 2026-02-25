@@ -3027,6 +3027,7 @@ dependencies = [
     { name = "pandas", version = "3.0.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "plotly" },
     { name = "py3dmol" },
+    { name = "pyarrow" },
     { name = "rdkit" },
     { name = "tqdm" },
 ]
@@ -3079,6 +3080,7 @@ requires-dist = [
     { name = "plotly", specifier = ">=5.14" },
     { name = "polars", marker = "extra == 'parquet'", specifier = ">=0.19" },
     { name = "py3dmol", specifier = ">=2.5.4" },
+    { name = "pyarrow", specifier = ">=23.0.0" },
     { name = "pyarrow", marker = "extra == 'parquet'", specifier = ">=13.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.1" },
