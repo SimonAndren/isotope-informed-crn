@@ -1,3 +1,6 @@
 [submodule "vendor/RMG-Py"]
 	path = vendor/RMG-Py
 	url = https://github.com/ReactionMechanismGenerator/RMG-Py.git
+[submodule "vendor/QIRN-Files"]
+	path = vendor/QIRN-Files
+	url = https://github.com/elliottmueller/QIRN-Files.git
