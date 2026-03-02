@@ -29,8 +29,6 @@ ENV/
 env/
 .venv
 
-# External dependencies
-vendor/
 
 # IDE
 .vscode/
@@ -86,6 +84,10 @@ data/processed/analysis/
 reviews/
 legacy/
 NOTES.md
+ClaudeCodeAgents-master/
+memory/
+rmg_benchmark_result.json
+vendor/RMG-database/
 
 # Development logs
 devlog/
