@@ -1,0 +1,671 @@
+description: |-
+  ---------------------------------------------------------------------------
+    CTI File converted from Solution Object
+  ---------------------------------------------------------------------------
+
+generator: cti2yaml
+cantera-version: 3.2.0
+date: Mon, 02 Mar 2026 08:30:26 -0800
+input-files: [chem.cti]
+
+units: {length: cm, quantity: mol, activation-energy: cal/mol}
+
+phases:
+- name: ''
+  thermo: ideal-gas
+  elements: [He, C, H]
+  species: ['[He]', CCC, CCC-2, CCC-3, CCC-4, CCC-5, CCC-6, CC, CC-2, 
+      CC-3, 'C[CH2]', 'C[CH2]-2', 'C[CH2]-3', 'C[CH2]-4', '[CH3]', '[CH3]-2',
+    '[H]', '[CH2]CC', '[CH2]CC-2', '[CH2]CC-3', '[CH2]CC-4', '[CH2]CC-5',
+    '[CH2]CC-6', '[CH2]CC-7', '[CH2]CC-8', C=C, C=C-2, C=C-3, C, C-2, '[H][H]']
+  kinetics: gas
+  reactions: all
+  state:
+    T: 1.0e-03
+    P: 2.0772642646e-03
+
+species:
+- name: '[He]'
+  composition: {He: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [2.5, 0.0, 0.0, 0.0, 0.0, -745.375, 0.928724]
+    - [2.5, 0.0, 0.0, 0.0, 0.0, -745.375, 0.928724]
+- name: CCC
+  composition: {H: 8, C: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1055.22, 5000.0]
+    data:
+    - [2.98553248, 0.0163573562, 2.24041993e-05, -3.18798574e-08, 
+        1.11040722e-11, -1.45025231e+04, 9.83691377]
+    - [5.39660375, 0.0226791786, -8.56068459e-06, 1.56857136e-09, 
+        -1.10132341e-13, -1.5872175e+04, -6.00351289]
+- name: CCC-2
+  composition: {H: 8, C: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1055.22, 5000.0]
+    data:
+    - [2.98553248, 0.0163573562, 2.24041993e-05, -3.18798574e-08, 
+        1.11040722e-11, -1.45025231e+04, 9.83691377]
+    - [5.39660375, 0.0226791786, -8.56068459e-06, 1.56857136e-09, 
+        -1.10132341e-13, -1.5872175e+04, -6.00351289]
+- name: CCC-3
+  composition: {H: 8, C: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1055.22, 5000.0]
+    data:
+    - [2.98553248, 0.0163573562, 2.24041993e-05, -3.18798574e-08, 
+        1.11040722e-11, -1.45025231e+04, 9.83691377]
+    - [5.39660375, 0.0226791786, -8.56068459e-06, 1.56857136e-09, 
+        -1.10132341e-13, -1.5872175e+04, -6.00351289]
+- name: CCC-4
+  composition: {H: 8, C: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1055.22, 5000.0]
+    data:
+    - [2.98553248, 0.0163573562, 2.24041993e-05, -3.18798574e-08, 
+        1.11040722e-11, -1.45025231e+04, 10.5300609]
+    - [5.39660375, 0.0226791786, -8.56068459e-06, 1.56857136e-09, 
+        -1.10132341e-13, -1.5872175e+04, -5.31036571]
+- name: CCC-5
+  composition: {H: 8, C: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1055.22, 5000.0]
+    data:
+    - [2.98553248, 0.0163573562, 2.24041993e-05, -3.18798574e-08, 
+        1.11040722e-11, -1.45025231e+04, 10.5300609]
+    - [5.39660375, 0.0226791786, -8.56068459e-06, 1.56857136e-09, 
+        -1.10132341e-13, -1.5872175e+04, -5.31036571]
+- name: CCC-6
+  composition: {H: 8, C: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1055.22, 5000.0]
+    data:
+    - [2.98553248, 0.0163573562, 2.24041993e-05, -3.18798574e-08, 
+        1.11040722e-11, -1.45025231e+04, 9.83691377]
+    - [5.39660375, 0.0226791786, -8.56068459e-06, 1.56857136e-09, 
+        -1.10132341e-13, -1.5872175e+04, -6.00351289]
+- name: CC
+  composition: {H: 6, C: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1017.72, 5000.0]
+    data:
+    - [3.7198596, 1.30751518e-03, 3.68623244e-05, -4.09144928e-08, 
+        1.37359191e-11, -1.16832028e+04, 4.83045125]
+    - [4.04728726, 0.0148895939, -5.07131662e-06, 9.103688e-10, 
+        -6.47292775e-14, -1.25198755e+04, -0.538055839]
+- name: CC-2
+  composition: {H: 6, C: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1017.72, 5000.0]
+    data:
+    - [3.7198596, 1.30751518e-03, 3.68623244e-05, -4.09144928e-08, 
+        1.37359191e-11, -1.16832028e+04, 4.83045125]
+    - [4.04728726, 0.0148895939, -5.07131662e-06, 9.103688e-10, 
+        -6.47292775e-14, -1.25198755e+04, -0.538055839]
+- name: CC-3
+  composition: {H: 6, C: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1017.72, 5000.0]
+    data:
+    - [3.7198596, 1.30751518e-03, 3.68623244e-05, -4.09144928e-08, 
+        1.37359191e-11, -1.16832028e+04, 5.52359843]
+    - [4.04728726, 0.0148895939, -5.07131662e-06, 9.103688e-10, 
+        -6.47292775e-14, -1.25198755e+04, 0.155091342]
+- name: C[CH2]
+  composition: {H: 5, C: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 940.29, 5000.0]
+    data:
+    - [3.79173146, -3.70327405e-04, 3.74837033e-05, -4.40218817e-08, 
+        1.60647629e-11, 1.30256491e+04, 7.32823051]
+    - [4.66307387, 0.0102220259, -2.22421971e-06, 3.03604365e-10, 
+        -2.01426041e-14, 1.22296601e+04, -0.183171549]
+- name: C[CH2]-2
+  composition: {H: 5, C: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 940.29, 5000.0]
+    data:
+    - [3.79173146, -3.70327405e-04, 3.74837033e-05, -4.40218817e-08, 
+        1.60647629e-11, 1.30256491e+04, 7.32823051]
+    - [4.66307387, 0.0102220259, -2.22421971e-06, 3.03604365e-10, 
+        -2.01426041e-14, 1.22296601e+04, -0.183171549]
+- name: C[CH2]-3
+  composition: {H: 5, C: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 940.29, 5000.0]
+    data:
+    - [3.79173146, -3.70327405e-04, 3.74837033e-05, -4.40218817e-08, 
+        1.60647629e-11, 1.30256491e+04, 7.32823051]
+    - [4.66307387, 0.0102220259, -2.22421971e-06, 3.03604365e-10, 
+        -2.01426041e-14, 1.22296601e+04, -0.183171549]
+- name: C[CH2]-4
+  composition: {H: 5, C: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 940.29, 5000.0]
+    data:
+    - [3.79173146, -3.70327405e-04, 3.74837033e-05, -4.40218817e-08, 
+        1.60647629e-11, 1.30256491e+04, 7.32823051]
+    - [4.66307387, 0.0102220259, -2.22421971e-06, 3.03604365e-10, 
+        -2.01426041e-14, 1.22296601e+04, -0.183171549]
+- name: '[CH3]'
+  composition: {H: 3, C: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1385.04, 5000.0]
+    data:
+    - [3.90865971, 1.91172254e-03, 3.28496488e-06, -3.11856598e-09, 
+        7.80663063e-13, 1.62859586e+04, 0.376896381]
+    - [3.64603247, 4.61006764e-03, -1.73822548e-06, 3.1048547e-10, 
+        -2.0805961e-14, 1.61726408e+04, 1.05776308]
+- name: '[CH3]-2'
+  composition: {H: 3, C: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1385.04, 5000.0]
+    data:
+    - [3.90865971, 1.91172254e-03, 3.28496488e-06, -3.11856598e-09, 
+        7.80663063e-13, 1.62859586e+04, 0.376896381]
+    - [3.64603247, 4.61006764e-03, -1.73822548e-06, 3.1048547e-10, 
+        -2.0805961e-14, 1.61726408e+04, 1.05776308]
+- name: '[H]'
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 2517.79, 5000.0]
+    data:
+    - [2.5, 1.50049018e-15, -2.56785808e-18, 1.48635202e-21, 
+        -2.69272097e-25, 2.54742178e+04, -0.444972896]
+    - [2.5, 8.36503305e-14, -3.91115551e-17, 7.87972009e-21, 
+        -5.78134237e-25, 2.54742178e+04, -0.444972896]
+- name: '[CH2]CC'
+  composition: {H: 7, C: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1045.62, 5000.0]
+    data:
+    - [3.05546653, 0.0154360527, 1.84824829e-05, -2.76851842e-08, 
+        9.8287873e-12, 1.02006877e+04, 12.2646995]
+    - [5.41058501, 0.0200263825, -7.61239804e-06, 1.3915477e-09, 
+        -9.73742777e-14, 8964.73423, -2.75748854]
+- name: '[CH2]CC-2'
+  composition: {H: 7, C: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1045.62, 5000.0]
+    data:
+    - [3.05546653, 0.0154360527, 1.84824829e-05, -2.76851842e-08, 
+        9.8287873e-12, 1.02006877e+04, 12.2646995]
+    - [5.41058501, 0.0200263825, -7.61239804e-06, 1.3915477e-09, 
+        -9.73742777e-14, 8964.73423, -2.75748854]
+- name: '[CH2]CC-3'
+  composition: {H: 7, C: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1045.62, 5000.0]
+    data:
+    - [3.05546653, 0.0154360527, 1.84824829e-05, -2.76851842e-08, 
+        9.8287873e-12, 1.02006877e+04, 12.2646995]
+    - [5.41058501, 0.0200263825, -7.61239804e-06, 1.3915477e-09, 
+        -9.73742777e-14, 8964.73423, -2.75748854]
+- name: '[CH2]CC-4'
+  composition: {H: 7, C: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1045.62, 5000.0]
+    data:
+    - [3.05546653, 0.0154360527, 1.84824829e-05, -2.76851842e-08, 
+        9.8287873e-12, 1.02006877e+04, 12.2646995]
+    - [5.41058501, 0.0200263825, -7.61239804e-06, 1.3915477e-09, 
+        -9.73742777e-14, 8964.73423, -2.75748854]
+- name: '[CH2]CC-5'
+  composition: {H: 7, C: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1045.62, 5000.0]
+    data:
+    - [3.05546653, 0.0154360527, 1.84824829e-05, -2.76851842e-08, 
+        9.8287873e-12, 1.02006877e+04, 12.2646995]
+    - [5.41058501, 0.0200263825, -7.61239804e-06, 1.3915477e-09, 
+        -9.73742777e-14, 8964.73423, -2.75748854]
+- name: '[CH2]CC-6'
+  composition: {H: 7, C: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1045.62, 5000.0]
+    data:
+    - [3.05546653, 0.0154360527, 1.84824829e-05, -2.76851842e-08, 
+        9.8287873e-12, 1.02006877e+04, 12.2646995]
+    - [5.41058501, 0.0200263825, -7.61239804e-06, 1.3915477e-09, 
+        -9.73742777e-14, 8964.73423, -2.75748854]
+- name: '[CH2]CC-7'
+  composition: {H: 7, C: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1045.62, 5000.0]
+    data:
+    - [3.05546653, 0.0154360527, 1.84824829e-05, -2.76851842e-08, 
+        9.8287873e-12, 1.02006877e+04, 12.2646995]
+    - [5.41058501, 0.0200263825, -7.61239804e-06, 1.3915477e-09, 
+        -9.73742777e-14, 8964.73423, -2.75748854]
+- name: '[CH2]CC-8'
+  composition: {H: 7, C: 3}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1045.62, 5000.0]
+    data:
+    - [3.05546653, 0.0154360527, 1.84824829e-05, -2.76851842e-08, 
+        9.8287873e-12, 1.02006877e+04, 12.2646995]
+    - [5.41058501, 0.0200263825, -7.61239804e-06, 1.3915477e-09, 
+        -9.73742777e-14, 8964.73423, -2.75748854]
+- name: C=C
+  composition: {H: 4, C: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 995.51, 5000.0]
+    data:
+    - [3.94120176, -3.67118223e-03, 3.89318127e-05, -4.26436552e-08, 
+        1.46422648e-11, 5022.59745, 3.66072426]
+    - [4.67085526, 8.60921078e-03, -2.49294764e-06, 4.46999734e-10, 
+        -3.36777403e-14, 4123.52565, -3.64212239]
+- name: C=C-2
+  composition: {H: 4, C: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 995.51, 5000.0]
+    data:
+    - [3.94120176, -3.67118223e-03, 3.89318127e-05, -4.26436552e-08, 
+        1.46422648e-11, 5022.59745, 3.66072426]
+    - [4.67085526, 8.60921078e-03, -2.49294764e-06, 4.46999734e-10, 
+        -3.36777403e-14, 4123.52565, -3.64212239]
+- name: C=C-3
+  composition: {H: 4, C: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 995.51, 5000.0]
+    data:
+    - [3.94120176, -3.67118223e-03, 3.89318127e-05, -4.26436552e-08, 
+        1.46422648e-11, 5022.59745, 4.35387144]
+    - [4.67085526, 8.60921078e-03, -2.49294764e-06, 4.46999734e-10, 
+        -3.36777403e-14, 4123.52565, -2.94897521]
+- name: C
+  composition: {H: 4, C: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1152.3, 5000.0]
+    data:
+    - [4.16383675, -4.88563715e-03, 2.3569447e-05, -1.95274263e-08, 
+        5.2545613e-12, -1.01601154e+04, -0.770825147]
+    - [1.16922636, 0.0110302009, -4.33533679e-06, 7.74721494e-10, 
+        -5.21983313e-14, -9836.48665, 12.5106136]
+- name: C-2
+  composition: {H: 4, C: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1152.3, 5000.0]
+    data:
+    - [4.16383675, -4.88563715e-03, 2.3569447e-05, -1.95274263e-08, 
+        5.2545613e-12, -1.01601154e+04, -0.770825147]
+    - [1.16922636, 0.0110302009, -4.33533679e-06, 7.74721494e-10, 
+        -5.21983313e-14, -9836.48665, 12.5106136]
+- name: '[H][H]'
+  composition: {H: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [100.0, 1868.91, 5000.0]
+    data:
+    - [3.43302396, 2.33436767e-04, -3.267477e-07, 3.78973711e-10, 
+        -8.74287705e-14, -1031.22996, -3.89944701]
+    - [3.02238052, 2.7936611e-04, 3.0493269e-07, -8.48347629e-11, 
+        6.51472706e-15, -732.268967, -1.27234787]
+
+reactions:
+- equation: C[CH2] + [CH3] <=> C + C=C  # Reaction 1
+  rate-constant: {A: 6.57e+14, b: -0.68, Ea: 0.0}
+- equation: C[CH2] + [CH3] <=> CCC  # Reaction 2
+  rate-constant: {A: 1.23e+15, b: -0.562, Ea: 21.0}
+- equation: C[CH2] + [CH3]-2 <=> C-2 + C=C  # Reaction 3
+  rate-constant: {A: 6.56475e+14, b: -0.68, Ea: 0.0}
+- equation: C[CH2] + [CH3]-2 <=> CCC-5  # Reaction 4
+  rate-constant: {A: 1.2063e+15, b: -0.562, Ea: 21.0}
+- equation: C[CH2]-2 + [CH3] <=> C + C=C-2  # Reaction 5
+  rate-constant: {A: 6.56475e+14, b: -0.68, Ea: 0.0}
+- equation: C[CH2]-2 + [CH3] <=> CCC-4  # Reaction 6
+  rate-constant: {A: 1.2063e+15, b: -0.562, Ea: 21.0}
+- equation: C[CH2]-2 + [CH3]-2 <=> C-2 + C=C-2  # Reaction 7
+  rate-constant: {A: 6.55989e+14, b: -0.68, Ea: 0.0}
+- equation: C[CH2]-2 + [CH3]-2 <=> CCC-2  # Reaction 8
+  rate-constant: {A: 1.18212e+15, b: -0.562, Ea: 21.0}
+- equation: C[CH2]-3 + [CH3] <=> C + C=C-3  # Reaction 9
+  rate-constant: {A: 6.57e+14, b: -0.68, Ea: 0.0}
+- equation: C[CH2]-3 + [CH3] <=> CCC-6  # Reaction 10
+  rate-constant: {A: 1.2063e+15, b: -0.562, Ea: 21.0}
+- equation: C[CH2]-3 + [CH3]-2 <=> C-2 + C=C-3  # Reaction 11
+  rate-constant: {A: 6.56475e+14, b: -0.68, Ea: 0.0}
+- equation: C[CH2]-3 + [CH3]-2 <=> CCC-4  # Reaction 12
+  rate-constant: {A: 1.18212e+15, b: -0.562, Ea: 21.0}
+- equation: C[CH2]-4 + [CH3] <=> C + C=C-3  # Reaction 13
+  rate-constant: {A: 6.56475e+14, b: -0.68, Ea: 0.0}
+- equation: C[CH2]-4 + [CH3] <=> CCC-5  # Reaction 14
+  rate-constant: {A: 1.23e+15, b: -0.562, Ea: 21.0}
+- equation: C[CH2]-4 + [CH3]-2 <=> C-2 + C=C-3  # Reaction 15
+  rate-constant: {A: 6.55989e+14, b: -0.68, Ea: 0.0}
+- equation: C[CH2]-4 + [CH3]-2 <=> CCC-3  # Reaction 16
+  rate-constant: {A: 1.2063e+15, b: -0.562, Ea: 21.0}
+- equation: C=C + [H] <=> C[CH2]  # Reaction 17
+  rate-constant: {A: 4.62e+08, b: 1.64, Ea: 1010.0}
+- equation: C=C-2 + [H] <=> C[CH2]-2  # Reaction 18
+  rate-constant: {A: 4.60633e+08, b: 1.64, Ea: 1010.0}
+- equation: C=C-3 + [H] <=> C[CH2]-3  # Reaction 19
+  rate-constant: {A: 2.31e+08, b: 1.64, Ea: 1010.0}
+- equation: C=C-3 + [H] <=> C[CH2]-4  # Reaction 20
+  rate-constant: {A: 2.30316e+08, b: 1.64, Ea: 1010.0}
+- equation: C[CH2] + [H] <=> C=C + [H][H]  # Reaction 21
+  rate-constant: {A: 1.083e+13, b: 0.0, Ea: 0.0}
+- equation: C[CH2] + [H] <=> CC  # Reaction 22
+  rate-constant: {A: 1.0e+14, b: 0.0, Ea: 0.0}
+- equation: C[CH2]-2 + [H] <=> C=C-2 + [H][H]  # Reaction 23
+  rate-constant: {A: 1.08024e+13, b: 0.0, Ea: 0.0}
+- equation: C[CH2]-2 + [H] <=> CC-2  # Reaction 24
+  rate-constant: {A: 9.97041e+13, b: 0.0, Ea: 0.0}
+- equation: C[CH2]-3 + [H] <=> C=C-3 + [H][H]  # Reaction 25
+  rate-constant: {A: 1.083e+13, b: 0.0, Ea: 0.0}
+- equation: C[CH2]-3 + [H] <=> CC-3  # Reaction 26
+  rate-constant: {A: 9.97041e+13, b: 0.0, Ea: 0.0}
+- equation: C[CH2]-4 + [H] <=> C=C-3 + [H][H]  # Reaction 27
+  rate-constant: {A: 1.08024e+13, b: 0.0, Ea: 0.0}
+- equation: C[CH2]-4 + [H] <=> CC-3  # Reaction 28
+  rate-constant: {A: 1.0e+14, b: 0.0, Ea: 0.0}
+- equation: 2 [H] <=> [H][H]  # Reaction 29
+  rate-constant: {A: 2.725e+10, b: 0.0, Ea: 1500.0}
+- equation: '[CH2]CC + [H] <=> CCC'  # Reaction 30
+  rate-constant: {A: 1.0e+14, b: 0.0, Ea: 0.0}
+- equation: '[CH2]CC-2 + [H] <=> CCC-2'  # Reaction 31
+  rate-constant: {A: 9.97041e+13, b: 0.0, Ea: 0.0}
+- equation: '[CH2]CC-3 + [H] <=> CCC-3'  # Reaction 32
+  rate-constant: {A: 9.97041e+13, b: 0.0, Ea: 0.0}
+- equation: '[CH2]CC-4 + [H] <=> CCC-4'  # Reaction 33
+  rate-constant: {A: 9.97041e+13, b: 0.0, Ea: 0.0}
+- equation: '[CH2]CC-5 + [H] <=> CCC-5'  # Reaction 34
+  rate-constant: {A: 9.97041e+13, b: 0.0, Ea: 0.0}
+- equation: '[CH2]CC-6 + [H] <=> CCC-4'  # Reaction 35
+  rate-constant: {A: 1.0e+14, b: 0.0, Ea: 0.0}
+- equation: '[CH2]CC-7 + [H] <=> CCC-5'  # Reaction 36
+  rate-constant: {A: 1.0e+14, b: 0.0, Ea: 0.0}
+- equation: '[CH2]CC-8 + [H] <=> CCC-6'  # Reaction 37
+  rate-constant: {A: 1.0e+14, b: 0.0, Ea: 0.0}
+- equation: '[CH2]CC + [H][H] <=> CCC + [H]'  # Reaction 38
+  rate-constant: {A: 3.84e-03, b: 4.34, Ea: 9000.0}
+- equation: '[CH2]CC-2 + [H][H] <=> CCC-2 + [H]'  # Reaction 39
+  rate-constant: {A: 3.83021e-03, b: 4.34, Ea: 9000.0}
+- equation: '[CH2]CC-3 + [H][H] <=> CCC-3 + [H]'  # Reaction 40
+  rate-constant: {A: 3.83021e-03, b: 4.34, Ea: 9000.0}
+- equation: '[CH2]CC-4 + [H][H] <=> CCC-4 + [H]'  # Reaction 41
+  rate-constant: {A: 3.83021e-03, b: 4.34, Ea: 9000.0}
+- equation: '[CH2]CC-5 + [H][H] <=> CCC-5 + [H]'  # Reaction 42
+  rate-constant: {A: 3.83021e-03, b: 4.34, Ea: 9000.0}
+- equation: '[CH2]CC-6 + [H][H] <=> CCC-4 + [H]'  # Reaction 43
+  rate-constant: {A: 3.84e-03, b: 4.34, Ea: 9000.0}
+- equation: '[CH2]CC-7 + [H][H] <=> CCC-5 + [H]'  # Reaction 44
+  rate-constant: {A: 3.84e-03, b: 4.34, Ea: 9000.0}
+- equation: '[CH2]CC-8 + [H][H] <=> CCC-6 + [H]'  # Reaction 45
+  rate-constant: {A: 3.84e-03, b: 4.34, Ea: 9000.0}
+- equation: C[CH2] + [CH2]CC <=> C=C + CCC  # Reaction 46
+  rate-constant: {A: 6.9e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2] + [CH2]CC-2 <=> C=C + CCC-2  # Reaction 47
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2] + [CH2]CC-3 <=> C=C + CCC-3  # Reaction 48
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2] + [CH2]CC-4 <=> C=C + CCC-4  # Reaction 49
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2] + [CH2]CC-5 <=> C=C + CCC-5  # Reaction 50
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2] + [CH2]CC-6 <=> C=C + CCC-4  # Reaction 51
+  rate-constant: {A: 6.9e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2] + [CH2]CC-7 <=> C=C + CCC-5  # Reaction 52
+  rate-constant: {A: 6.9e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2] + [CH2]CC-8 <=> C=C + CCC-6  # Reaction 53
+  rate-constant: {A: 6.9e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-2 + [CH2]CC <=> C=C-2 + CCC  # Reaction 54
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-2 + [CH2]CC-2 <=> C=C-2 + CCC-2  # Reaction 55
+  rate-constant: {A: 6.88939e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-2 + [CH2]CC-3 <=> C=C-2 + CCC-3  # Reaction 56
+  rate-constant: {A: 6.88939e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-2 + [CH2]CC-4 <=> C=C-2 + CCC-4  # Reaction 57
+  rate-constant: {A: 6.88939e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-2 + [CH2]CC-5 <=> C=C-2 + CCC-5  # Reaction 58
+  rate-constant: {A: 6.88939e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-2 + [CH2]CC-6 <=> C=C-2 + CCC-4  # Reaction 59
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-2 + [CH2]CC-7 <=> C=C-2 + CCC-5  # Reaction 60
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-2 + [CH2]CC-8 <=> C=C-2 + CCC-6  # Reaction 61
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-3 + [CH2]CC <=> C=C-3 + CCC  # Reaction 62
+  rate-constant: {A: 6.9e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-3 + [CH2]CC-2 <=> C=C-3 + CCC-2  # Reaction 63
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-3 + [CH2]CC-3 <=> C=C-3 + CCC-3  # Reaction 64
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-3 + [CH2]CC-4 <=> C=C-3 + CCC-4  # Reaction 65
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-3 + [CH2]CC-5 <=> C=C-3 + CCC-5  # Reaction 66
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-3 + [CH2]CC-6 <=> C=C-3 + CCC-4  # Reaction 67
+  rate-constant: {A: 6.9e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-3 + [CH2]CC-7 <=> C=C-3 + CCC-5  # Reaction 68
+  rate-constant: {A: 6.9e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-3 + [CH2]CC-8 <=> C=C-3 + CCC-6  # Reaction 69
+  rate-constant: {A: 6.9e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-4 + [CH2]CC <=> C=C-3 + CCC  # Reaction 70
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-4 + [CH2]CC-2 <=> C=C-3 + CCC-2  # Reaction 71
+  rate-constant: {A: 6.88939e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-4 + [CH2]CC-3 <=> C=C-3 + CCC-3  # Reaction 72
+  rate-constant: {A: 6.88939e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-4 + [CH2]CC-4 <=> C=C-3 + CCC-4  # Reaction 73
+  rate-constant: {A: 6.88939e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-4 + [CH2]CC-5 <=> C=C-3 + CCC-5  # Reaction 74
+  rate-constant: {A: 6.88939e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-4 + [CH2]CC-6 <=> C=C-3 + CCC-4  # Reaction 75
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-4 + [CH2]CC-7 <=> C=C-3 + CCC-5  # Reaction 76
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-4 + [CH2]CC-8 <=> C=C-3 + CCC-6  # Reaction 77
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C=C + [CH3] <=> [CH2]CC  # Reaction 78
+  rate-constant: {A: 4.18e+04, b: 2.41, Ea: 5630.0}
+- equation: C=C-2 + [CH3] <=> [CH2]CC-4  # Reaction 79
+  rate-constant: {A: 4.09945e+04, b: 2.41, Ea: 5630.0}
+- equation: C=C-3 + [CH3] <=> [CH2]CC-5  # Reaction 80
+  rate-constant: {A: 2.09e+04, b: 2.41, Ea: 5630.0}
+- equation: C=C-3 + [CH3] <=> [CH2]CC-8  # Reaction 81
+  rate-constant: {A: 2.04973e+04, b: 2.41, Ea: 5630.0}
+- equation: C=C + [CH3]-2 <=> [CH2]CC-7  # Reaction 82
+  rate-constant: {A: 4.09945e+04, b: 2.41, Ea: 5630.0}
+- equation: C=C-2 + [CH3]-2 <=> [CH2]CC-2  # Reaction 83
+  rate-constant: {A: 4.01729e+04, b: 2.41, Ea: 5630.0}
+- equation: C=C-3 + [CH3]-2 <=> [CH2]CC-3  # Reaction 84
+  rate-constant: {A: 2.04973e+04, b: 2.41, Ea: 5630.0}
+- equation: C=C-3 + [CH3]-2 <=> [CH2]CC-6  # Reaction 85
+  rate-constant: {A: 2.00865e+04, b: 2.41, Ea: 5630.0}
+- equation: C + [CH2]CC <=> CCC + [CH3]  # Reaction 86
+  rate-constant: {A: 0.0864, b: 4.14, Ea: 1.256e+04}
+- equation: C-2 + [CH2]CC <=> CCC + [CH3]-2  # Reaction 87
+  rate-constant: {A: 0.0863309, b: 4.14, Ea: 1.256e+04}
+- equation: C + [CH2]CC-2 <=> CCC-2 + [CH3]  # Reaction 88
+  rate-constant: {A: 0.0863309, b: 4.14, Ea: 1.256e+04}
+- equation: C-2 + [CH2]CC-2 <=> CCC-2 + [CH3]-2  # Reaction 89
+  rate-constant: {A: 0.0862671, b: 4.14, Ea: 1.256e+04}
+- equation: C + [CH2]CC-3 <=> CCC-3 + [CH3]  # Reaction 90
+  rate-constant: {A: 0.0863309, b: 4.14, Ea: 1.256e+04}
+- equation: C-2 + [CH2]CC-3 <=> CCC-3 + [CH3]-2  # Reaction 91
+  rate-constant: {A: 0.0862671, b: 4.14, Ea: 1.256e+04}
+- equation: C + [CH2]CC-4 <=> CCC-4 + [CH3]  # Reaction 92
+  rate-constant: {A: 0.0863309, b: 4.14, Ea: 1.256e+04}
+- equation: C-2 + [CH2]CC-4 <=> CCC-4 + [CH3]-2  # Reaction 93
+  rate-constant: {A: 0.0862671, b: 4.14, Ea: 1.256e+04}
+- equation: C + [CH2]CC-5 <=> CCC-5 + [CH3]  # Reaction 94
+  rate-constant: {A: 0.0863309, b: 4.14, Ea: 1.256e+04}
+- equation: C-2 + [CH2]CC-5 <=> CCC-5 + [CH3]-2  # Reaction 95
+  rate-constant: {A: 0.0862671, b: 4.14, Ea: 1.256e+04}
+- equation: C + [CH2]CC-6 <=> CCC-4 + [CH3]  # Reaction 96
+  rate-constant: {A: 0.0864, b: 4.14, Ea: 1.256e+04}
+- equation: C-2 + [CH2]CC-6 <=> CCC-4 + [CH3]-2  # Reaction 97
+  rate-constant: {A: 0.0863309, b: 4.14, Ea: 1.256e+04}
+- equation: C + [CH2]CC-7 <=> CCC-5 + [CH3]  # Reaction 98
+  rate-constant: {A: 0.0864, b: 4.14, Ea: 1.256e+04}
+- equation: C-2 + [CH2]CC-7 <=> CCC-5 + [CH3]-2  # Reaction 99
+  rate-constant: {A: 0.0863309, b: 4.14, Ea: 1.256e+04}
+- equation: C + [CH2]CC-8 <=> CCC-6 + [CH3]  # Reaction 100
+  rate-constant: {A: 0.0864, b: 4.14, Ea: 1.256e+04}
+- equation: C-2 + [CH2]CC-8 <=> CCC-6 + [CH3]-2  # Reaction 101
+  rate-constant: {A: 0.0863309, b: 4.14, Ea: 1.256e+04}
+- equation: '[CH3] + [H] <=> C'  # Reaction 102
+  rate-constant: {A: 1.93e+14, b: 0.0, Ea: 270.0}
+- equation: '[CH3]-2 + [H] <=> C-2'  # Reaction 103
+  rate-constant: {A: 1.92429e+14, b: 0.0, Ea: 270.0}
+- equation: C + [H] <=> [CH3] + [H][H]  # Reaction 104
+  rate-constant: {A: 0.876, b: 4.34, Ea: 8199.999999999998}
+- equation: C-2 + [H] <=> [CH3]-2 + [H][H]  # Reaction 105
+  rate-constant: {A: 0.873767, b: 4.34, Ea: 8199.999999999998}
+- equation: CC + [CH2]CC <=> CCC + C[CH2]  # Reaction 106
+  rate-constant: {A: 1.926e-05, b: 5.28, Ea: 7780.0}
+- equation: CC + [CH2]CC-2 <=> CCC-2 + C[CH2]  # Reaction 107
+  rate-constant: {A: 1.92446e-05, b: 5.28, Ea: 7780.0}
+- equation: CC + [CH2]CC-3 <=> CCC-3 + C[CH2]  # Reaction 108
+  rate-constant: {A: 1.92446e-05, b: 5.28, Ea: 7780.0}
+- equation: CC + [CH2]CC-4 <=> CCC-4 + C[CH2]  # Reaction 109
+  rate-constant: {A: 1.92446e-05, b: 5.28, Ea: 7780.0}
+- equation: CC + [CH2]CC-5 <=> CCC-5 + C[CH2]  # Reaction 110
+  rate-constant: {A: 1.92446e-05, b: 5.28, Ea: 7780.0}
+- equation: CC + [CH2]CC-6 <=> CCC-4 + C[CH2]  # Reaction 111
+  rate-constant: {A: 1.926e-05, b: 5.28, Ea: 7780.0}
+- equation: CC + [CH2]CC-7 <=> CCC-5 + C[CH2]  # Reaction 112
+  rate-constant: {A: 1.926e-05, b: 5.28, Ea: 7780.0}
+- equation: CC + [CH2]CC-8 <=> CCC-6 + C[CH2]  # Reaction 113
+  rate-constant: {A: 1.926e-05, b: 5.28, Ea: 7780.0}
+- equation: CC-2 + [CH2]CC <=> CCC + C[CH2]-2  # Reaction 114
+  rate-constant: {A: 1.92446e-05, b: 5.28, Ea: 7780.0}
+- equation: CC-2 + [CH2]CC-2 <=> CCC-2 + C[CH2]-2  # Reaction 115
+  rate-constant: {A: 1.92304e-05, b: 5.28, Ea: 7780.0}
+- equation: CC-2 + [CH2]CC-3 <=> CCC-3 + C[CH2]-2  # Reaction 116
+  rate-constant: {A: 1.92304e-05, b: 5.28, Ea: 7780.0}
+- equation: CC-2 + [CH2]CC-4 <=> CCC-4 + C[CH2]-2  # Reaction 117
+  rate-constant: {A: 1.92304e-05, b: 5.28, Ea: 7780.0}
+- equation: CC-2 + [CH2]CC-5 <=> CCC-5 + C[CH2]-2  # Reaction 118
+  rate-constant: {A: 1.92304e-05, b: 5.28, Ea: 7780.0}
+- equation: CC-2 + [CH2]CC-6 <=> CCC-4 + C[CH2]-2  # Reaction 119
+  rate-constant: {A: 1.92446e-05, b: 5.28, Ea: 7780.0}
+- equation: CC-2 + [CH2]CC-7 <=> CCC-5 + C[CH2]-2  # Reaction 120
+  rate-constant: {A: 1.92446e-05, b: 5.28, Ea: 7780.0}
+- equation: CC-2 + [CH2]CC-8 <=> CCC-6 + C[CH2]-2  # Reaction 121
+  rate-constant: {A: 1.92446e-05, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC <=> CCC + C[CH2]-4  # Reaction 122
+  rate-constant: {A: 9.63e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC <=> CCC + C[CH2]-3  # Reaction 123
+  rate-constant: {A: 9.6223e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC-2 <=> CCC-2 + C[CH2]-4  # Reaction 124
+  rate-constant: {A: 9.6223e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC-2 <=> CCC-2 + C[CH2]-3  # Reaction 125
+  rate-constant: {A: 9.61519e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC-3 <=> CCC-3 + C[CH2]-4  # Reaction 126
+  rate-constant: {A: 9.6223e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC-3 <=> CCC-3 + C[CH2]-3  # Reaction 127
+  rate-constant: {A: 9.61519e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC-4 <=> CCC-4 + C[CH2]-4  # Reaction 128
+  rate-constant: {A: 9.6223e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC-4 <=> CCC-4 + C[CH2]-3  # Reaction 129
+  rate-constant: {A: 9.61519e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC-5 <=> CCC-5 + C[CH2]-4  # Reaction 130
+  rate-constant: {A: 9.6223e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC-5 <=> CCC-5 + C[CH2]-3  # Reaction 131
+  rate-constant: {A: 9.61519e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC-6 <=> CCC-4 + C[CH2]-4  # Reaction 132
+  rate-constant: {A: 9.63e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC-6 <=> CCC-4 + C[CH2]-3  # Reaction 133
+  rate-constant: {A: 9.6223e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC-7 <=> CCC-5 + C[CH2]-4  # Reaction 134
+  rate-constant: {A: 9.63e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC-7 <=> CCC-5 + C[CH2]-3  # Reaction 135
+  rate-constant: {A: 9.6223e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC-8 <=> CCC-6 + C[CH2]-4  # Reaction 136
+  rate-constant: {A: 9.63e-06, b: 5.28, Ea: 7780.0}
+- equation: CC-3 + [CH2]CC-8 <=> CCC-6 + C[CH2]-3  # Reaction 137
+  rate-constant: {A: 9.6223e-06, b: 5.28, Ea: 7780.0}
+- equation: 2 C[CH2] <=> C=C + CC  # Reaction 138
+  rate-constant: {A: 6.9e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2] + C[CH2]-2 <=> C=C-2 + CC  # Reaction 139
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2] + C[CH2]-2 <=> C=C + CC-2  # Reaction 140
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2] + C[CH2]-3 <=> C=C-3 + CC  # Reaction 141
+  rate-constant: {A: 6.9e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2] + C[CH2]-3 <=> C=C + CC-3  # Reaction 142
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2] + C[CH2]-4 <=> C=C-3 + CC  # Reaction 143
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2] + C[CH2]-4 <=> C=C + CC-3  # Reaction 144
+  rate-constant: {A: 6.9e+13, b: -0.35, Ea: 0.0}
+- equation: 2 C[CH2]-2 <=> C=C-2 + CC-2  # Reaction 145
+  rate-constant: {A: 6.88939e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-2 + C[CH2]-3 <=> C=C-3 + CC-2  # Reaction 146
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-2 + C[CH2]-3 <=> C=C-2 + CC-3  # Reaction 147
+  rate-constant: {A: 6.88939e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-2 + C[CH2]-4 <=> C=C-3 + CC-2  # Reaction 148
+  rate-constant: {A: 6.88939e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-2 + C[CH2]-4 <=> C=C-2 + CC-3  # Reaction 149
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: 2 C[CH2]-3 <=> C=C-3 + CC-3  # Reaction 150
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: C[CH2]-3 + C[CH2]-4 <=> C=C-3 + CC-3  # Reaction 151
+  rate-constant: {A: 1.37788e+14, b: -0.35, Ea: 0.0}
+- equation: 2 C[CH2]-4 <=> C=C-3 + CC-3  # Reaction 152
+  rate-constant: {A: 6.89449e+13, b: -0.35, Ea: 0.0}
+- equation: 2 [CH3] <=> CC  # Reaction 153
+  rate-constant: {A: 4.725e+14, b: -0.538, Ea: 135.0}
+- equation: '[CH3] + [CH3]-2 <=> CC-3'  # Reaction 154
+  rate-constant: {A: 9.26791e+14, b: -0.538, Ea: 135.0}
+- equation: 2 [CH3]-2 <=> CC-2  # Reaction 155
+  rate-constant: {A: 4.54108e+14, b: -0.538, Ea: 135.0}
+- equation: CC + [H] <=> C[CH2] + [H][H]  # Reaction 156
+  rate-constant: {A: 2.17494, b: 4.07, Ea: 6080.0}
+- equation: CC-2 + [H] <=> C[CH2]-2 + [H][H]  # Reaction 157
+  rate-constant: {A: 2.1694, b: 4.07, Ea: 6080.0}
+- equation: CC-3 + [H] <=> C[CH2]-4 + [H][H]  # Reaction 158
+  rate-constant: {A: 1.08747, b: 4.07, Ea: 6080.0}
+- equation: CC-3 + [H] <=> C[CH2]-3 + [H][H]  # Reaction 159
+  rate-constant: {A: 1.0847, b: 4.07, Ea: 6080.0}
+- equation: CC + [CH3] <=> C + C[CH2]  # Reaction 160
+  rate-constant: {A: 2.94005e-05, b: 5.135, Ea: 7890.000000000001}
+- equation: CC-2 + [CH3] <=> C + C[CH2]-2  # Reaction 161
+  rate-constant: {A: 2.9377e-05, b: 5.135, Ea: 7890.000000000001}
+- equation: CC-3 + [CH3] <=> C + C[CH2]-4  # Reaction 162
+  rate-constant: {A: 1.47003e-05, b: 5.135, Ea: 7890.000000000001}
+- equation: CC-3 + [CH3] <=> C + C[CH2]-3  # Reaction 163
+  rate-constant: {A: 1.46885e-05, b: 5.135, Ea: 7890.000000000001}
+- equation: CC + [CH3]-2 <=> C-2 + C[CH2]  # Reaction 164
+  rate-constant: {A: 2.9377e-05, b: 5.135, Ea: 7890.000000000001}
+- equation: CC-2 + [CH3]-2 <=> C-2 + C[CH2]-2  # Reaction 165
+  rate-constant: {A: 2.93553e-05, b: 5.135, Ea: 7890.000000000001}
+- equation: CC-3 + [CH3]-2 <=> C-2 + C[CH2]-4  # Reaction 166
+  rate-constant: {A: 1.46885e-05, b: 5.135, Ea: 7890.000000000001}
+- equation: CC-3 + [CH3]-2 <=> C-2 + C[CH2]-3  # Reaction 167
+  rate-constant: {A: 1.46776e-05, b: 5.135, Ea: 7890.000000000001}
