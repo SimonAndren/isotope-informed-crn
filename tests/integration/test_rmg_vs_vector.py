@@ -21,8 +21,10 @@ import pytest
 sys.path.insert(0, "src")
 sys.path.insert(0, "vendor/RMG-Py")
 
-# ── Skip entire module if RMG-Py unavailable ──────────────────────────────────
-rmgpy = pytest.importorskip("rmgpy", reason="RMG-Py not available")
+# ── Skip entire module if RMG-Py Cython extensions unavailable ────────────────
+# importorskip("rmgpy") would pass via vendor/RMG-Py even without compiled
+# Cython extensions; check the compiled solver module specifically.
+pytest.importorskip("rmgpy.solver.base", reason="RMG-Py Cython extensions not compiled; run in rmg_env")
 
 from isotopologue.analysis import delta, total_ratio_vectorized
 from isotopologue.benchmarks.propane import initial_conditions, propane_3rxn
@@ -35,7 +37,7 @@ import importlib.util
 _spec = importlib.util.spec_from_file_location(
     "bench_rmg_isotope", "tests/performance/bench_rmg_isotope.py"
 )
-_mod = importlib.util.util.module_from_spec(_spec)
+_mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)
 
 make_propane_species = _mod.make_propane_species
