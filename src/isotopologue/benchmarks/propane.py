@@ -157,25 +157,29 @@ def _make_reactions_3rxn(T: float) -> list[Reaction]:
 
     # R2: C2H5(2C) + CH3(1C) ↔ C3H8(3C)
     # Reaction 2 in mechanism file: A=3.37e13, b=0.0, Ea=0.0
+    # Reverse: C3H8 → C2H5 + CH3, high-pressure limit (NIST): A=1e17 s^-1, Ea=84800 cal/mol
     k2f = arrhenius(3.37e13, 0.0, 0.0, T)
+    k2r = arrhenius(1.0e17, 0.0, 84800.0, T)
     R2 = Reaction(
         "R2_recombination",
         reactants=("C2H5", "CH3"),
         products=("C3H8",),
-        k_forward=np.full(8, k2f),     # 2^(2+1) = 8
-        k_reverse=np.full(8, k2f * 0.001),  # slow reverse (C–C bond homolysis is slow)
+        k_forward=np.full(8, k2f),   # 2^(2+1) = 8
+        k_reverse=np.full(8, k2r),   # s^-1 — C–C bond homolysis, Ea ≈ 85 kcal/mol
         atom_map=_HAABS3,
     )
 
     # R3: CH3(1C) + CH3(1C) ↔ C2H6(2C)
     # Reaction 17 in mechanism file: A=2.065e17, b=-1.4, Ea=1000
+    # Reverse: C2H6 → 2CH3, high-pressure limit (NIST): A=2e17 s^-1, Ea=87700 cal/mol
     k3f = arrhenius(2.065e17, -1.4, 1000.0, T)
+    k3r = arrhenius(2.0e17, 0.0, 87700.0, T)
     R3 = Reaction(
         "R3_recombination",
         reactants=("CH3", "CH3"),
         products=("C2H6",),
-        k_forward=np.full(4, k3f),     # 2^(1+1) = 4; atom_map=None → identity
-        k_reverse=np.full(4, k3f * 0.0005),
+        k_forward=np.full(4, k3f),   # 2^(1+1) = 4; atom_map=None → identity
+        k_reverse=np.full(4, k3r),   # s^-1 — C–C bond homolysis, Ea ≈ 88 kcal/mol
         atom_map=None,
     )
 

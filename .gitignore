@@ -22,6 +22,8 @@ wheels/
 MANIFEST
 CLAUDE.md
 docs/*
+!docs/delta13c_investigation.md
+!docs/experiments.md
 
 # Virtual environments
 venv/
