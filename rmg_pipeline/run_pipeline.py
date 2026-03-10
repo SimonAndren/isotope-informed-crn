@@ -168,7 +168,8 @@ def generate_cluster_csv() -> str:
     return csv_path
 
 
-def run_expand(yes: bool = False):
+def run_expand(yes: bool = False, force: bool = False, kie_method: str = "simple_fixed",
+               use_original_reactions: bool = True):
     """Stage 2: isotopologue expansion — the expensive step.
 
     rmgpy.tools.isotopes.run() creates two subdirectories inside ISO_DIR:
@@ -177,11 +178,36 @@ def run_expand(yes: bool = False):
     The expanded CHEMKIN file is at ISO_DIR/iso/chemkin/chem_annotated.inp.
 
     Crash recovery:
-      - If Stage 2 already completed, skip immediately.
+      - If Stage 2 already completed, skip immediately (unless force=True).
       - If a partial iso/ directory exists (crash), ask before removing it.
+
+    Args:
+        yes:        Auto-confirm removal of partial output.
+        force:      Remove completed iso/ and re-run from scratch (use when
+                    changing KIE method or other pipeline parameters).
+        kie_method: KIE application method: 'simple_fixed' (default, copies
+                    base b/Ea before applying KIE factor), 'none' (copies base
+                    kinetics but no KIE factor — use to test carbon routing),
+                    or 'simple' (original, may leave wrong b/Ea on tree estimates).
+        use_original_reactions: If True, map isotopologue reactions from the base
+                    mechanism's TemplateReactions (correct degeneracy scaling via
+                    new_deg/old_deg ratio). If False, re-enumerate all reactions
+                    from scratch via enlarge() — suffers from degeneracy double-
+                    counting when ¹³C breaks molecular symmetry.
     """
     from rmgpy.tools.isotopes import run as run_isotopes
     from rmgpy.rmg.main import initialize_log
+
+    iso_subdir = os.path.join(ISO_DIR, "iso")
+
+    # ── Force re-run: wipe completed output ───────────────────────────────
+    if force and _stage2_complete():
+        print(f"\nForce flag set — removing completed {iso_subdir} for re-run.")
+        shutil.rmtree(iso_subdir)
+        # Also remove inline-generated base if present (from use_original_reactions=True)
+        rmg_subdir = os.path.join(ISO_DIR, "rmg")
+        if os.path.isdir(rmg_subdir):
+            shutil.rmtree(rmg_subdir)
 
     # ── Check if already complete ──────────────────────────────────────────
     if _stage2_complete():
@@ -194,7 +220,6 @@ def run_expand(yes: bool = False):
 
     # ── Handle partial run ─────────────────────────────────────────────────
     if _stage2_partial():
-        iso_subdir = os.path.join(ISO_DIR, "iso")
         print(f"\nWARNING: Partial Stage 2 run detected at {iso_subdir}")
         print("  (iso/ directory exists but chem_annotated.inp is absent)")
         if not yes:
@@ -203,26 +228,38 @@ def run_expand(yes: bool = False):
                 print("  Aborting. Remove iso/ manually to restart.")
                 sys.exit(1)
         shutil.rmtree(iso_subdir)
+        rmg_subdir = os.path.join(ISO_DIR, "rmg")
+        if os.path.isdir(rmg_subdir):
+            shutil.rmtree(rmg_subdir)
         print(f"  Removed {iso_subdir}")
 
     os.makedirs(ISO_DIR, exist_ok=True)
     initialize_log(logging.INFO, os.path.join(ISO_DIR, "RMG.log"))
 
+    # When use_original_reactions=True, generate base inline so reactions
+    # retain TemplateReaction.template attributes (lost when loading from
+    # saved CHEMKIN — tree-estimated reactions lack "rate rule" comments).
+    original_dir = None if use_original_reactions else BASE_DIR
+    base_label = "inline (fresh Stage 1)" if original_dir is None else BASE_DIR
+
     print(f"\n{'='*60}")
     print("Stage 2: Isotopologue expansion")
-    print(f"Using base from: {BASE_DIR}")
+    print(f"Using base from: {base_label}")
     print(f"Output: {ISO_DIR}")
+    print(f"KIE method: {kie_method}")
+    print(f"use_original_reactions: {use_original_reactions}")
     print("WARNING: This step takes ~44 core-hours (Goldman 2019).")
     print("="*60)
 
     t0 = time.perf_counter()
+    kie_arg = None if kie_method == "disabled" else kie_method
     run_isotopes(
         input_file=INPUT_FILE,
         output_directory=ISO_DIR,
-        original=BASE_DIR,              # skip re-running base
+        original=original_dir,
         maximum_isotopic_atoms=1000000,
-        use_original_reactions=False,   # full re-enumeration (matches Goldman)
-        kinetic_isotope_effect="simple",
+        use_original_reactions=use_original_reactions,
+        kinetic_isotope_effect=kie_arg,
     )
     elapsed = time.perf_counter() - t0
     print(f"\nStage 2 done in {elapsed:.1f}s ({elapsed/3600:.3f} core-hours)")
@@ -270,10 +307,13 @@ def run_simulate(yaml_path: str = ISO_YAML):
     T = 1123.0   # 850 °C in K
     P = 2.0e5    # 2 bar in Pa
 
-    # Identify unlabeled propane (species named "CCC" in SMILES notation).
-    propane = next((s for s in gas.species_names if s == "CCC"), None)
+    # Identify unlabeled propane: either SMILES "CCC" or RMG label "propane_ooo(N)".
+    propane = next(
+        (s for s in gas.species_names if s == "CCC" or s.startswith("propane_ooo")),
+        None,
+    )
     if propane is None:
-        print("WARNING: 'CCC' (propane) not found in mechanism; skipping simulation.")
+        print("WARNING: propane not found in mechanism; skipping simulation.")
         return gas
 
     he = next((s for s in gas.species_names if s in ("[He]", "He")), None)
@@ -313,6 +353,32 @@ def main():
         action="store_true",
         help="Auto-confirm removal of partial Stage 2 output (for background runs)",
     )
+    parser.add_argument(
+        "--force-expand",
+        action="store_true",
+        help="Remove completed Stage 2 output and re-run from scratch "
+             "(use when changing KIE method or pipeline parameters)",
+    )
+    parser.add_argument(
+        "--kie-method",
+        choices=["simple_corrected", "simple_fixed", "none", "simple", "disabled"],
+        default="simple_corrected",
+        help="KIE application method for Stage 2: 'simple_corrected' (default, applies "
+             "reduced-mass KIE on existing kinetics — preserves degeneracy correction "
+             "from use_original_reactions), 'simple_fixed' (copies base b/Ea before KIE "
+             "factor — use with enlarge()), 'none' (copies base kinetics, no KIE factor), "
+             "'simple' (original, may have wrong b/Ea), 'disabled' (skip KIE entirely).",
+    )
+    parser.add_argument(
+        "--use-original-reactions",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Stage 2 reaction generation: --use-original-reactions (default) maps "
+             "isotopologue reactions from the base mechanism's TemplateReactions with "
+             "correct degeneracy scaling (new_deg/old_deg). --no-use-original-reactions "
+             "re-enumerates all reactions via enlarge() (suffers from degeneracy double-"
+             "counting when 13C breaks molecular symmetry).",
+    )
     args = parser.parse_args()
 
     if args.stage in ("base", "all"):
@@ -321,7 +387,8 @@ def main():
         if not os.path.exists(os.path.join(BASE_DIR, "chemkin", "chem_annotated.inp")):
             print("ERROR: Run --stage base first to generate the base mechanism.")
             sys.exit(1)
-        run_expand(yes=args.yes)
+        run_expand(yes=args.yes, force=args.force_expand, kie_method=args.kie_method,
+                   use_original_reactions=args.use_original_reactions)
     if args.stage in ("simulate", "all"):
         run_simulate()
 
